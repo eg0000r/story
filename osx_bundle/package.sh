@@ -19,4 +19,5 @@ mv "StoryBuilder" "Storyboards.app/Contents/MacOS"
 cd ..
 cp "osx_bundle/res/Info.plist" "build-debug/Storyboards.app/Contents"
 cp "osx_bundle/res/SB.icns" "build-debug/Storyboards.app/Contents/Resources"
+cp "macho64/gen" "build-debug/Storyboards.app/Contents/MacOS"
 cd "osx_bundle"

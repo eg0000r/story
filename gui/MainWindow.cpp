@@ -1,5 +1,6 @@
 #include <wx/filedlg.h>
 #include "MainWindow.h"
+#include "../os.h"
 #include "../Cache.h"
 
 typedef std::pair<MainWindow::ResponseType, std::string> HandlerSubPair;
@@ -8,9 +9,9 @@ typedef std::pair<wxTreeItemId, HandlerSubPair> HandlerPair;
 // Main window initialization
 void MainWindow::renderWindow(wxShowEvent& event) {
     Cache::init();
+    nodeControl->DeleteAllItems();
     nodeControl->AddRoot("storyboard");
     nodeControl->AppendItem(nodeControl->GetRootItem(), "view");
-
     _doc.Parse(_projectTemplate);
     updateTree();
     disableAllEditing();
@@ -42,7 +43,11 @@ void MainWindow::nodeSelected(wxTreeEvent &event) {
 void MainWindow::buildClicked(wxCommandEvent &event) {
     modifyDoc();
     _doc.SaveFile(std::string(Cache::getPath() + "/temp.xml").c_str());
-    std::string cmd = "./gen " + Cache::getPath() + "/temp.xml " + Cache::getPath() + "/generated_java";
+    std::string cmd;
+    if (strcmp(OS, "LINUX") == 0)
+        cmd = "./gen " + Cache::getPath() + "/temp.xml " + Cache::getPath() + "/generated_java";
+    else if (strcmp(OS, "MAC") == 0)
+        cmd = "./Storyboards.app/Contents/MacOS/gen " + Cache::getPath() + "/temp.xml " + Cache::getPath() + "/generated_java";
     system(cmd.c_str());
     cmd = "rm " + Cache::getPath() + "/temp.xml";
     system(cmd.c_str());
@@ -205,13 +210,14 @@ void HelpDialog::renderWindow(wxShowEvent &event) {
 // Save Dialog
 // Init save window
 void SaveDialog::renderDialog(wxShowEvent &event) {
-    pathEntry->SetValue(getenv("HOME"));
+    pathEntry->SetValue(Cache::fetchSavePath());
 }
 
 // Write the project
 void SaveDialog::saveProject(wxCommandEvent &event) {
     std::string filename = nameEntry->GetValue().ToStdString();
     std::string path = pathEntry->GetValue().ToStdString();
+    Cache::updateSavePath(path);
     _doc->SaveFile(std::string (path + "/" + filename + ".xml").c_str());
     Close();
 }
