@@ -15,8 +15,5 @@ bool App::OnInit() {
     auto frame = new MainWindow((wxWindow *) nullptr);
     frame->Show();
     SetTopWindow(frame);
-    //
-
-    //
     return true;
 }

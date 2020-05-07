@@ -1,19 +1,16 @@
 #include <wx/filedlg.h>
 #include "MainWindow.h"
+#include "../Cache.h"
 
 typedef std::pair<MainWindow::ResponseType, std::string> HandlerSubPair;
 typedef std::pair<wxTreeItemId, HandlerSubPair> HandlerPair;
 
 // Main window initialization
 void MainWindow::renderWindow(wxShowEvent& event) {
+    Cache::init();
     nodeControl->AddRoot("storyboard");
     nodeControl->AppendItem(nodeControl->GetRootItem(), "view");
-    responseHandlerEditor->SetValue(
-            "@Override\n"
-            "public void handle(Update update) {\n"
-            "   \n"
-            "}"
-            );
+
     _doc.Parse(_projectTemplate);
     updateTree();
     disableAllEditing();
@@ -40,6 +37,15 @@ void MainWindow::nodeSelected(wxTreeEvent &event) {
         viewNameEditor->Clear();
         disableAllEditing();
     }
+}
+
+void MainWindow::buildClicked(wxCommandEvent &event) {
+    modifyDoc();
+    _doc.SaveFile(std::string(Cache::getPath() + "/temp.xml").c_str());
+    std::string cmd = "./gen " + Cache::getPath() + "/temp.xml " + Cache::getPath() + "/generated_java";
+    system(cmd.c_str());
+    cmd = "rm " + Cache::getPath() + "/temp.xml";
+    system(cmd.c_str());
 }
 
 // Radio button selected

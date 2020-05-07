@@ -1,14 +1,11 @@
-//
-// Created by ed242 on 07.05.2020.
-//
-
-#ifndef STORYBUILDER_CACHE_H
-#define STORYBUILDER_CACHE_H
-
+#include <string>
+#include "os.h"
 
 class Cache {
+public:
+    static void init();
+    static std::string getPath();
 
+private:
+    static std::string _path;
 };
-
-
-#endif //STORYBUILDER_CACHE_H

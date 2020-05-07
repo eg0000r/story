@@ -98,42 +98,8 @@ MainWindow::MainWindow( wxWindow* parent, wxWindowID id, const wxString& title, 
 	m_staticText3->Wrap( -1 );
 	bSizer3->Add( m_staticText3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 
-	responseHandlerEditor = new wxStyledTextCtrl( m_scrolledWindow2, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0, wxEmptyString );
-	responseHandlerEditor->SetUseTabs( true );
-	responseHandlerEditor->SetTabWidth( 4 );
-	responseHandlerEditor->SetIndent( 4 );
-	responseHandlerEditor->SetTabIndents( true );
-	responseHandlerEditor->SetBackSpaceUnIndents( true );
-	responseHandlerEditor->SetViewEOL( false );
-	responseHandlerEditor->SetViewWhiteSpace( false );
-	responseHandlerEditor->SetMarginWidth( 2, 0 );
-	responseHandlerEditor->SetIndentationGuides( true );
-	responseHandlerEditor->SetMarginType( 1, wxSTC_MARGIN_SYMBOL );
-	responseHandlerEditor->SetMarginMask( 1, wxSTC_MASK_FOLDERS );
-	responseHandlerEditor->SetMarginWidth( 1, 16);
-	responseHandlerEditor->SetMarginSensitive( 1, true );
-	responseHandlerEditor->SetProperty( wxT("fold"), wxT("1") );
-	responseHandlerEditor->SetFoldFlags( wxSTC_FOLDFLAG_LINEBEFORE_CONTRACTED | wxSTC_FOLDFLAG_LINEAFTER_CONTRACTED );
-	responseHandlerEditor->SetMarginType( 0, wxSTC_MARGIN_NUMBER );
-	responseHandlerEditor->SetMarginWidth( 0, responseHandlerEditor->TextWidth( wxSTC_STYLE_LINENUMBER, wxT("_99999") ) );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDER, wxSTC_MARK_BOXPLUS );
-	responseHandlerEditor->MarkerSetBackground( wxSTC_MARKNUM_FOLDER, wxColour( wxT("BLACK") ) );
-	responseHandlerEditor->MarkerSetForeground( wxSTC_MARKNUM_FOLDER, wxColour( wxT("WHITE") ) );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDEROPEN, wxSTC_MARK_BOXMINUS );
-	responseHandlerEditor->MarkerSetBackground( wxSTC_MARKNUM_FOLDEROPEN, wxColour( wxT("BLACK") ) );
-	responseHandlerEditor->MarkerSetForeground( wxSTC_MARKNUM_FOLDEROPEN, wxColour( wxT("WHITE") ) );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDERSUB, wxSTC_MARK_EMPTY );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDEREND, wxSTC_MARK_BOXPLUS );
-	responseHandlerEditor->MarkerSetBackground( wxSTC_MARKNUM_FOLDEREND, wxColour( wxT("BLACK") ) );
-	responseHandlerEditor->MarkerSetForeground( wxSTC_MARKNUM_FOLDEREND, wxColour( wxT("WHITE") ) );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDEROPENMID, wxSTC_MARK_BOXMINUS );
-	responseHandlerEditor->MarkerSetBackground( wxSTC_MARKNUM_FOLDEROPENMID, wxColour( wxT("BLACK") ) );
-	responseHandlerEditor->MarkerSetForeground( wxSTC_MARKNUM_FOLDEROPENMID, wxColour( wxT("WHITE") ) );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDERMIDTAIL, wxSTC_MARK_EMPTY );
-	responseHandlerEditor->MarkerDefine( wxSTC_MARKNUM_FOLDERTAIL, wxSTC_MARK_EMPTY );
-	responseHandlerEditor->SetSelBackground( true, wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHT ) );
-	responseHandlerEditor->SetSelForeground( true, wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
-	bSizer3->Add( responseHandlerEditor, 1, wxEXPAND|wxALL, 5 );
+	responseHandlerEditor = new wxTextCtrl( m_scrolledWindow2, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	bSizer3->Add( responseHandlerEditor, 1, wxALL|wxEXPAND, 5 );
 
 
 	m_scrolledWindow2->SetSizer( bSizer3 );
@@ -154,6 +120,7 @@ MainWindow::MainWindow( wxWindow* parent, wxWindowID id, const wxString& title, 
 	this->Connect( saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::save ) );
 	this->Connect( addTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::addNode ) );
 	this->Connect( removeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::deleteNode ) );
+	this->Connect( buildTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::buildClicked ) );
 	this->Connect( infoTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::infoClicked ) );
 	nodeControl->Connect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( MainWindow::nodeSelected ), NULL, this );
 	viewNameEditor->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( MainWindow::viewNameChanged ), NULL, this );
@@ -170,6 +137,7 @@ MainWindow::~MainWindow()
 	this->Disconnect( saveTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::save ) );
 	this->Disconnect( addTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::addNode ) );
 	this->Disconnect( removeTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::deleteNode ) );
+	this->Disconnect( buildTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::buildClicked ) );
 	this->Disconnect( infoTool->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( MainWindow::infoClicked ) );
 	nodeControl->Disconnect( wxEVT_COMMAND_TREE_SEL_CHANGED, wxTreeEventHandler( MainWindow::nodeSelected ), NULL, this );
 	viewNameEditor->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( MainWindow::viewNameChanged ), NULL, this );

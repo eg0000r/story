@@ -26,7 +26,6 @@
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/radiobox.h>
-#include <wx/stc/stc.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/html/htmlwin.h>
@@ -68,7 +67,7 @@ namespace gen
 			wxStaticText* m_staticText2;
 			wxTextCtrl* responseTextEditor;
 			wxStaticText* m_staticText3;
-			wxStyledTextCtrl* responseHandlerEditor;
+			wxTextCtrl* responseHandlerEditor;
 
 			// Virtual event handlers, overide them in your derived class
 			virtual void renderWindow( wxShowEvent& event ) { event.Skip(); }
@@ -76,6 +75,7 @@ namespace gen
 			virtual void save( wxCommandEvent& event ) { event.Skip(); }
 			virtual void addNode( wxCommandEvent& event ) { event.Skip(); }
 			virtual void deleteNode( wxCommandEvent& event ) { event.Skip(); }
+			virtual void buildClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void infoClicked( wxCommandEvent& event ) { event.Skip(); }
 			virtual void nodeSelected( wxTreeEvent& event ) { event.Skip(); }
 			virtual void viewNameChanged( wxCommandEvent& event ) { event.Skip(); }

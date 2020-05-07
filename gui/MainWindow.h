@@ -20,6 +20,7 @@ public:
     void open(wxCommandEvent& event) override;
     void save(wxCommandEvent& event) override;
     void customResponseChanged(wxKeyEvent& event) override;
+    void buildClicked(wxCommandEvent& event) override;
 
     enum ResponseType {
         TEXT, CUSTOM
